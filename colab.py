@@ -10,7 +10,7 @@ print(gdf_nodes)
 print(gdf_relationships)
 
 import matplotlib.pyplot as plt
-import geopandas as gpd
+import geopandas as gpd 
 
 
 residential_areas = ox.geometries_from_place("Mumbai, Maharashtra, India", tags={'landuse': 'residential'})
@@ -54,48 +54,48 @@ plt.show()
 
 import pandas as pd
 
-df = pd.read_csv('Data Excel.xlsx - Route Latlong.csv')
+# df = pd.read_csv('Data Excel.xlsx - Route Latlong.csv')
 
-df.head()
-
-
-newData = []
-columns = ['name', 'stop no.', 'lat', 'long']
+# df.head()
 
 
-for frame in df.iterrows():
-  if(frame[1][0] == 'UP'):
-    if [frame[1][2], frame[1][5], frame[1][7], frame[1][8]] not in newData:
-      newData.append([frame[1][2].lower(), frame[1][5], frame[1][7], frame[1][8]])
-    # print(frame[1][2])
-
-# len(newData)
-
-newDF = pd.DataFrame(newData, columns = columns)
-newDF
-
-newDF.to_csv('interDF.csv', index=False)
+# newData = []
+# columns = ['name', 'stop no.', 'lat', 'long']
 
 
+# for frame in df.iterrows():
+#   if(frame[1][0] == 'UP'):
+#     if [frame[1][2], frame[1][5], frame[1][7], frame[1][8]] not in newData:
+#       newData.append([frame[1][2].lower(), frame[1][5], frame[1][7], frame[1][8]])
+#     # print(frame[1][2])
 
-r700 = pd.read_csv('700.csv')
-finalData = []
+# # len(newData)
 
-for row in r700.iterrows():
-  print(newDF[newDF['name'] == row[1][1].lower()])
-  # for i in newDF.iterrows():
-    # print(i[1][0], row[1][1])    
+# newDF = pd.DataFrame(newData, columns = columns)
+# newDF
 
-    # if(i[1][0].lower() == row[1][1].lower()):
-    #   print([row[1], i[1][2], i[1][3]])
-    #   finalData.append([row[1], i[1][2], i[1][3]])
+# newDF.to_csv('interDF.csv', index=False)
 
-  # print(row[1][1])
-  # value = newDF[newDF['name']==row[1][1]]
-  # print(value)
-  # newDF[row['from_stop_name'][0]]
-    # finalData.append([row, ])
-# len(finalData)
+
+
+# r700 = pd.read_csv('700.csv')
+# finalData = []
+
+# for row in r700.iterrows():
+#   print(newDF[newDF['name'] == row[1][1].lower()])
+#   # for i in newDF.iterrows():
+#     # print(i[1][0], row[1][1])    
+
+#     # if(i[1][0].lower() == row[1][1].lower()):
+#     #   print([row[1], i[1][2], i[1][3]])
+#     #   finalData.append([row[1], i[1][2], i[1][3]])
+
+#   # print(row[1][1])
+#   # value = newDF[newDF['name']==row[1][1]]
+#   # print(value)
+#   # newDF[row['from_stop_name'][0]]
+#     # finalData.append([row, ])
+# # len(finalData)
 
 
 
