@@ -11,7 +11,12 @@ df1 = df1.query('direction == "UP"')
 # df1.dropna(subset=['direction'], axis=0)
 df1 = df1.apply(lambda x: x.str.lower())
 df1 = df1.drop_duplicates(subset=['stop-name'])
-df1 = df1.replace(df1[df1['']])
+df1['stop-name'] = df1['stop-name'].str.replace('(e)', 'east')
+df1['stop-name'] = df1['stop-name'].str.replace('(w)', 'west')
+df1['stop-name'] = df1['stop-name'].str.replace('(', '')
+df1['stop-name'] = df1['stop-name'].str.replace(')', '')
+df1['stop-name'] = df1['stop-name'].str.replace(' or ', ' ')
+
 print(df1.head())
 print(len(df1))
 
@@ -33,7 +38,7 @@ print(len(df2))
 
 mergedFrame = pd.merge(df2, df1, right_on='stop-name', left_on='from_stop_name')
 print(len(mergedFrame))
-print(mergedFrame[0:60])
+# print(mergedFrame[0:60])
 
 
 
