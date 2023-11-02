@@ -1,3 +1,3 @@
-route_name,from_stop_name,to_stop_name,total_passenger,total_amount,from_lat,from_long,to_lat,to_long
-7006,Anand Nagar,Bhayandar Pada,17,85,19.264687,72.967836,19.283685,72.952358
-7006,Anand Nagar,Borivali Station East,103,2060,19.264687,72.967836,19.283685,72.952358
+route_name,from_stop_name,to_stop_name,total_passenger,total_amount,stop-number,from_lat,from_long,to_lat,to_long
+7006,Anand Nagar,Bhayandar Pada,17,85,37024,19.264687,72.967836,19.283685,72.952358
+7006,Anand Nagar,Borivali Station East,103,2060,37024,19.264687,72.967836,19.283685,72.952358
