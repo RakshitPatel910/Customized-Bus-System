@@ -5,9 +5,7 @@ import geopandas as gpd
 import random
 import math
 
-df = pd.read_csv('D:\MajorProject\Customized-Bus-System\dataset\plotForm.csv')
-# print(df)
-finalDF = []
+
 
 def getGeometryPoints(lat,longi,totalPassengers):
     res = ox.features_from_point( (lat, longi), tags = {'building': True}, dist=200 )
@@ -36,18 +34,21 @@ def createDataframe(startPloy,endPoly,fromStopName,fromLat,fromLong,toStopName,t
     # print("newDf ",type(newDf))
     return newDf
 
+'D:\MajorProject\Customized-Bus-System\dataset\plotForm.csv'
 
-
-
-for i in df.itertuples():
-    fromPloys = getGeometryPoints(i.from_lat,i.from_long,i.total_passenger)
-    toPloys = getGeometryPoints(i.to_lat,i.to_long,i.total_passenger)
-    newDf = createDataframe(fromPloys,toPloys,i.from_stop_name,i.from_lat,i.from_long,i.to_stop_name,i.to_lat,i.to_long)
-    testDF = pd.DataFrame(finalDF)
-    print("newDF",newDf)
-    print("testDF",testDF)
-    finalDF = pd.concat([testDF,newDf])
-    finalDF = finalDF.reset_index(drop=True)
+def augmentDataCreation(path):
+    df = pd.read_csv(path)
+    # print(df)
+    finalDF = []
+    for i in df.itertuples():
+        fromPloys = getGeometryPoints(i.from_lat,i.from_long,i.total_passenger)
+        toPloys = getGeometryPoints(i.to_lat,i.to_long,i.total_passenger)
+        newDf = createDataframe(fromPloys,toPloys,i.from_stop_name,i.from_lat,i.from_long,i.to_stop_name,i.to_lat,i.to_long)
+        testDF = pd.DataFrame(finalDF)
+        print("newDF",newDf)
+        print("testDF",testDF)
+        finalDF = pd.concat([testDF,newDf])
+        finalDF = finalDF.reset_index(drop=True)
     # finalDF.append(newDf)
     # print(polygons_list)
     # gfd = gpd.GeoDataFrame(res)
@@ -59,6 +60,8 @@ for i in df.itertuples():
     # ax.set_axis_off()
     # # Display the plot
     # plt.show()
-print("finalDF",finalDF)
-finalDF.to_csv('finalDF.csv')
+    print("finalDF",finalDF)
+    finalDF.to_csv('finalDF.csv')
+
+    __all__ = ["augmentDataCreation"]
 
