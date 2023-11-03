@@ -1,6 +1,6 @@
 import pointPlot as pp
 
-pp.augmentDataCreation('D:\MajorProject\Customized-Bus-System\dataset\plotForm.csv')
+pp.augmentDataCreation('../dataset/plotFrom.csv')
      
 
 
@@ -20,4 +20,3 @@ pp.augmentDataCreation('D:\MajorProject\Customized-Bus-System\dataset\plotForm.c
 
 
 
-     
