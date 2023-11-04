@@ -1,28 +1,47 @@
 import osmnx as ox
 import matplotlib.pyplot as plt
 import geopandas as gpd 
+import pandas as pd
 # fig, ax = plt.subplots()
 
 
-# residential_areas = ox.graph_from_bbox(19.3196,19.0826,73.0711,72.6639, tags={'landuse': 'residential'})
-res = ox.features_from_point( (19.295233, 72.854393), tags = { 'highway':True}, dist=20000 )
-# res = ox.graph_from_point( (19.275002, 72.861955),  dist=200 )
+
+
+passengerNodes = pd.read_csv('./finalDF.csv')
+
+passengerPickupNodes = gpd.GeoDataFrame(passengerNodes, crs='EPSG:4326', geometry=gpd.points_from_xy(passengerNodes['start_lat'], passengerNodes['start_long']))
+print(passengerPickupNodes.head())
+passengerDropNodes = gpd.GeoDataFrame(passengerNodes, crs='EPSG:4326', geometry=gpd.points_from_xy(passengerNodes['end_lat'], passengerNodes['end_long']))
+print(passengerDropNodes.head())
+
+# uniqe_pickup = gpd.GeoDataFrame()
+# for i in passengerPickupNodes.iterrows():
+#     # point = ( i.start_lat, i.start_long )
+#     if i not in uniqe_pickup:
+#         uniqe_pickup.merge(passengerPickupNodes.loc[i])
+# duplicate_points = gpd.GeoDataFrame()
+# for i in uniqe_pickup.iterrows():
+#     duplicate_points = duplicate_points.merge( passengerPickupNodes.loc[passengerPickupNodes['start_lat'] == i['start_lat'] and passengerPickupNodes['start_long'] == i['start_long']])
+# consolidate_points = ox.consolidate_intersections(duplicate_points)
+# print(len(uniqe_pickup))
+# print(len(duplicate_points))
+
+res = ox.features_from_point( (19.295233, 72.854393), tags = { 'highway':True, 'building': True }, dist=15000 )
+residential_highway_gdf = gpd.GeoDataFrame.from_features(res, crs='EPSG:4326')
 
 print(res)
 
-gfd = gpd.GeoDataFrame(res)
+gfd = gpd.GeoDataFrame.from_features(res, crs='EPSG:4326')
+
+gdfs = [residential_highway_gdf, passengerPickupNodes, passengerDropNodes]
+colors = ['lightblue', 'green', 'red']
+markers = ['None', 'o', 'o']
 
 fig, ax = plt.subplots()
 
-# Plot the residential areas
-gfd.plot(ax=ax, color='lightblue', alpha=0.7, linewidth=0.5, edgecolor='k')
-# ox.plot_graph(res, node_color='gray', node_size=5, edge_color='white', edge_alpha=0.5)
-# ox.plot_graph(res, node_color='gray', node_size=5, edge_color='white', edge_alpha=0.5)
-# Set a title
-# ax.set_title("Residential Areas")
 
-# Remove axis labels
-ax.set_axis_off()
+for i in range(len(gdfs)):
+    gdfs[i].plot(ax=ax, color=colors[i], marker=markers[i], alpha=0.7, linewidth=0.5,)
 
-# Display the plot
 plt.show()
+
