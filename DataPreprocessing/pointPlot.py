@@ -61,7 +61,7 @@ def augmentDataCreation(path):
     # # Display the plot
     # plt.show()
     print("finalDF",finalDF)
-    finalDF.to_csv('finalDF.csv')
+    finalDF.to_csv('../dataset/finalDF.csv')
 
 
 __all__ = ["augmentDataCreation"]
