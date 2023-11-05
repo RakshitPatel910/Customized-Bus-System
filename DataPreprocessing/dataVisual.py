@@ -10,10 +10,50 @@ import numpy.random as rnd
 
 passengerNodes = pd.read_csv('../dataset/finalDF700.csv')
 
-passengerPickupNodes = gpd.GeoDataFrame(passengerNodes, crs='EPSG:4326', geometry=gpd.points_from_xy(passengerNodes['start_lat'], passengerNodes['start_long']))
+
+startNodes = []
+for node in passengerNodes.itertuples():
+    startNodes.append([node.start_lat, node.start_long])
+# startNodes = pd.DataFrame(startNodes, columns=['start_lat', 'start_long'])
+# print(startNodes.head())
+endNodes = []
+for node in passengerNodes.itertuples():
+    endNodes.append([node.end_lat, node.end_long])
+
+
+unique_nodes = []
+
+unique_start_nodes = []
+for node in startNodes:
+    if node in unique_nodes:
+        unique_nodes.append([node[0]+rnd.normal(0,0.00005), node[1]+rnd.normal(0,0.00005)])
+        unique_start_nodes.append([node[0]+rnd.normal(0,0.00005), node[1]+rnd.normal(0,0.00005)])
+    else :
+        unique_nodes.append(node)
+        unique_start_nodes.append(node)
+print(len(unique_start_nodes))
+unique_start_nodes = pd.DataFrame(unique_start_nodes, columns=['start_lat', 'start_long'])
+
+unique_end_nodes = []
+for node in endNodes:
+    if node in unique_nodes:
+        unique_nodes.append([node[0]+rnd.normal(0,0.00005), node[1]+rnd.normal(0,0.00005)])
+        unique_end_nodes.append([node[0]+rnd.normal(0,0.00005), node[1]+rnd.normal(0,0.00005)])
+    else :
+        unique_nodes.append(node)
+        unique_end_nodes.append(node)
+print(len(unique_end_nodes))
+unique_end_nodes = pd.DataFrame(unique_end_nodes, columns=['end_lat', 'end_long'])
+
+passengerPickupNodes = gpd.GeoDataFrame(unique_start_nodes, crs='EPSG:4326', geometry=gpd.points_from_xy(unique_start_nodes['start_lat'], unique_start_nodes['start_long']))
 print(passengerPickupNodes.head())
-passengerDropNodes = gpd.GeoDataFrame(passengerNodes, crs='EPSG:4326', geometry=gpd.points_from_xy(passengerNodes['end_lat'], passengerNodes['end_long']))
+passengerDropNodes = gpd.GeoDataFrame(unique_end_nodes, crs='EPSG:4326', geometry=gpd.points_from_xy(unique_end_nodes['end_lat'], unique_end_nodes['end_long']))
 print(passengerDropNodes.head())
+
+# passengerPickupNodes = gpd.GeoDataFrame(passengerNodes, crs='EPSG:4326', geometry=gpd.points_from_xy(passengerNodes['start_lat'], passengerNodes['start_long']))
+# print(passengerPickupNodes.head())
+# passengerDropNodes = gpd.GeoDataFrame(passengerNodes, crs='EPSG:4326', geometry=gpd.points_from_xy(passengerNodes['end_lat'], passengerNodes['end_long']))
+# print(passengerDropNodes.head())
 # passengerPickupNodes = gpd.GeoDataFrame(passengerNodes, crs='EPSG:4326', geometry=gpd.points_from_xy(passengerNodes['start_lat']+rnd.normal(0,0.0001), passengerNodes['start_long']+rnd.normal(0,0.0001)))
 # print(passengerPickupNodes.head())
 # passengerDropNodes = gpd.GeoDataFrame(passengerNodes, crs='EPSG:4326', geometry=gpd.points_from_xy(passengerNodes['end_lat']+rnd.normal(0,0.0001), passengerNodes['end_long']+rnd.normal(0,0.0001)))
