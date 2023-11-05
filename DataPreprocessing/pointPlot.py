@@ -7,8 +7,8 @@ import math
 
 
 
-def getGeometryPoints(lat,longi,totalPassengers):
-    res = ox.features_from_point( (lat, longi), tags = {'building': True}, dist=200 )
+def getGeometryPoints(lat,longi,totalPassengers,res):
+    # res = ox.features_from_point( (lat, longi), tags = {'building': True}, dist=200 )
     polygons_list = []
     randomPolys=[]
     for j in res['geometry']:
@@ -25,7 +25,7 @@ def getGeometryPoints(lat,longi,totalPassengers):
 
 def createDataframe(startPloy,endPoly,fromStopName,fromLat,fromLong,toStopName,toLat,toLong):
     df=[]
-    columns = ['start_Lat','start_long','from_stop_name','from_lat','from_long','to_stop_name','to_lat','to_long','end_lat','end_long']
+    columns = ['start_lat','start_long','from_stop_name','from_lat','from_long','to_stop_name','to_lat','to_long','end_lat','end_long']
     for startPloy, endPoly in zip(startPloy, endPoly):
         df.append([startPloy.centroid.x,startPloy.centroid.y,fromStopName,fromLat,fromLong,toStopName,toLat,toLong,endPoly.centroid.x,endPoly.centroid.y])
         # print("centroid ",i.centroid)
@@ -41,14 +41,21 @@ def augmentDataCreation(path):
     # print(df)
     finalDF = []
     for i in df.itertuples():
-        fromPloys = getGeometryPoints(i.from_lat,i.from_long,i.total_passenger)
-        toPloys = getGeometryPoints(i.to_lat,i.to_long,i.total_passenger)
-        newDf = createDataframe(fromPloys,toPloys,i.from_stop_name,i.from_lat,i.from_long,i.to_stop_name,i.to_lat,i.to_long)
-        testDF = pd.DataFrame(finalDF)
-        print("newDF",newDf)
-        print("testDF",testDF)
-        finalDF = pd.concat([testDF,newDf])
-        finalDF = finalDF.reset_index(drop=True)
+        try:
+            res1 = ox.features_from_point( (i.from_lat,i.from_long), tags = {'building': True}, dist=200 )
+            res2 = ox.features_from_point( (i.to_lat,i.to_long), tags = {'building': True}, dist=200 )
+            if len(res1)>0 and len(res2)>0:
+                fromPloys = getGeometryPoints(i.from_lat,i.from_long,i.total_passenger,res1)
+                toPloys = getGeometryPoints(i.to_lat,i.to_long,i.total_passenger,res2)
+                newDf = createDataframe(fromPloys,toPloys,i.from_stop_name,i.from_lat,i.from_long,i.to_stop_name,i.to_lat,i.to_long)
+                testDF = pd.DataFrame(finalDF)
+                # print("newDF",newDf)
+                # print("testDF",testDF)
+                finalDF = pd.concat([testDF,newDf])
+                finalDF = finalDF.reset_index(drop=True)
+
+        except :
+            print('no data')
     # finalDF.append(newDf)
     # print(polygons_list)
     # gfd = gpd.GeoDataFrame(res)
@@ -61,7 +68,7 @@ def augmentDataCreation(path):
     # # Display the plot
     # plt.show()
     print("finalDF",finalDF)
-    finalDF.to_csv('../dataset/finalDF.csv')
+    finalDF.to_csv('../dataset/finalDF700.csv')
 
 
 __all__ = ["augmentDataCreation"]
