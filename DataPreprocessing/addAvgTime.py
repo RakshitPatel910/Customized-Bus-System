@@ -26,7 +26,7 @@ def calcAvgTime(graph, row):
 def addAvgTime():
     df = pd.read_csv('../dataset/passengerRequests/request700.csv')
     # df = df.head()
-    df = df[350:351]
+    # df = df[350:351]
     # df = pd.read_csv('../dataset/finalDF700.csv')
     # df = df[0:155]
     # print(df)
@@ -52,6 +52,8 @@ def addAvgTime():
             print(iter)
         except:
             shortest_travel_time_list.append('NULL')
+            iter = iter+1
+            print(iter)
     # shortestRouteVisualize(graph, shortest_travel_time_list, ax)
 
     df['shortest_travel_time'] = shortest_travel_time_list
