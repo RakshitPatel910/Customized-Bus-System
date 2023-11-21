@@ -1,6 +1,6 @@
 import pointPlot as pp
 
-pp.augmentDataCreation('../dataset/intermediate700.csv')
+pp.augmentDataCreation('../dataset/Intermediate/intermediate709.csv')
      
 
 

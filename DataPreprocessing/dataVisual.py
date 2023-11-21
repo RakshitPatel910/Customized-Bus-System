@@ -9,7 +9,7 @@ import numpy.random as rnd
 
 
 passengerNodes = pd.read_csv('../dataset/finalDF700.csv')
-
+passengerNodes = passengerNodes.loc[passengerNodes['from_stop_name'] == 'anand nagar']
 
 startNodes = []
 for node in passengerNodes.itertuples():
