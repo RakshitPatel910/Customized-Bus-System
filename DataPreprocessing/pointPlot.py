@@ -23,11 +23,11 @@ def getGeometryPoints(lat,longi,totalPassengers,res):
         randomPolys = randomPolys + random.sample(polygons_list, remainder)
     return randomPolys
 
-def createDataframe(startPloy,endPoly,fromStopName,fromLat,fromLong,toStopName,toLat,toLong):
+def createDataframe(startPloy,endPoly,fromStopName,fromLat,fromLong,toStopName,toLat,toLong,direction):
     df=[]
-    columns = ['start_lat','start_long','from_stop_name','from_lat','from_long','to_stop_name','to_lat','to_long','end_lat','end_long']
+    columns = ['start_lat','start_long','from_stop_name','from_lat','from_long','to_stop_name','to_lat','to_long','end_lat','end_long','direction']
     for startPloy, endPoly in zip(startPloy, endPoly):
-        df.append([startPloy.centroid.x,startPloy.centroid.y,fromStopName,fromLat,fromLong,toStopName,toLat,toLong,endPoly.centroid.x,endPoly.centroid.y])
+        df.append([startPloy.centroid.x,startPloy.centroid.y,fromStopName,fromLat,fromLong,toStopName,toLat,toLong,endPoly.centroid.x,endPoly.centroid.y,direction])
     newDf = pd.DataFrame(df, columns=columns)
     
     return newDf
@@ -35,6 +35,7 @@ def createDataframe(startPloy,endPoly,fromStopName,fromLat,fromLong,toStopName,t
 # 'D:\MajorProject\Customized-Bus-System\dataset\plotForm.csv'
 
 def augmentDataCreation(path):
+    print(path)
     df = pd.read_csv(path)
     
     # print(df)
@@ -46,7 +47,7 @@ def augmentDataCreation(path):
             if len(res1)>0 and len(res2)>0:
                 fromPloys = getGeometryPoints(i.from_lat,i.from_long,i.total_passenger,res1)
                 toPloys = getGeometryPoints(i.to_lat,i.to_long,i.total_passenger,res2)
-                newDf = createDataframe(fromPloys,toPloys,i.from_stop_name,i.from_lat,i.from_long,i.to_stop_name,i.to_lat,i.to_long)
+                newDf = createDataframe(fromPloys,toPloys,i.from_stop_name,i.from_lat,i.from_long,i.to_stop_name,i.to_lat,i.to_long,i.direction)
                 testDF = pd.DataFrame(finalDF)
                 # print("newDF",newDf)
                 # print("testDF",testDF)
@@ -68,7 +69,7 @@ def augmentDataCreation(path):
     # plt.show()
     print("finalDF",finalDF)
     finalDF.to_csv('../dataset/passengerRequests/request700.csv')
-    tp.calProbab(path)
+    
 
 
 __all__ = ["augmentDataCreation"]
