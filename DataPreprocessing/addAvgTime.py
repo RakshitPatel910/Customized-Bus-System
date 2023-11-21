@@ -25,7 +25,7 @@ def calcAvgTime(graph, row):
 
 def addAvgTime():
     df = pd.read_csv('../dataset/passengerRequests/request700.csv')
-    # df = df.head()
+    df = df.head()
     # df = df[350:351]
     # df = pd.read_csv('../dataset/finalDF700.csv')
     # df = df[0:155]
@@ -47,7 +47,7 @@ def addAvgTime():
         try:
             travel_time = calcAvgTime(graph, row)
             # travel_time = calcAvgTime(graph, row, ax)
-            shortest_travel_time_list.append(travel_time/60)
+            shortest_travel_time_list.append(int(travel_time)/60)
             iter = iter+1
             print(iter)
         except:
