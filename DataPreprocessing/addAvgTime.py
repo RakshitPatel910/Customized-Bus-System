@@ -25,13 +25,13 @@ def calcAvgTime(graph, row):
 
 def addAvgTime():
     df = pd.read_csv('../dataset/passengerRequests/request700.csv')
-    df = df.head()
-    # df = df[345:346]
+    # df = df.head()
+    df = df[350:351]
     # df = pd.read_csv('../dataset/finalDF700.csv')
     # df = df[0:155]
     # print(df)
 
-    graph = ox.graph_from_point((19.26542, 72.96664), dist=15000)
+    graph = ox.graph_from_point((19.26542, 72.96664), dist=20000)
 
     graph = ox.add_edge_speeds(graph)
     graph = ox.add_edge_travel_times(graph)
@@ -44,17 +44,21 @@ def addAvgTime():
     # fig, ax = ox.plot_graph(graph, node_size=0, show=False, close=False)
 
     for row in df.itertuples():
-        travel_time = calcAvgTime(graph, row)
-        # travel_time = calcAvgTime(graph, row, ax)
-        shortest_travel_time_list.append(travel_time/60)
-        iter = iter+1
-        print(iter)
+        try:
+            travel_time = calcAvgTime(graph, row)
+            # travel_time = calcAvgTime(graph, row, ax)
+            shortest_travel_time_list.append(travel_time/60)
+            iter = iter+1
+            print(iter)
+        except:
+            shortest_travel_time_list.append('NULL')
     # shortestRouteVisualize(graph, shortest_travel_time_list, ax)
 
     df['shortest_travel_time'] = shortest_travel_time_list
-    df = df.drop(['Unnamed: 0'])
+    df = df.drop(['Unnamed: 0'], axis=1)
+    # print(df['Unnamed: 0'])
 
-    df.to_csv('../dataset/passengerRequests/request700.csv')
+    df.to_csv('../dataset/request700.csv')
     # plt.show()
 
 
