@@ -1,10 +1,10 @@
 import stopLatLongMerge as sllm
 
 pathInfo = [
-    # {
-    #     'path' : '../dataset/clean_data/700.csv',
-    #     'routeNo' : '700'
-    # },
+    {
+        'path' : '../dataset/clean_data/700.csv',
+        'routeNo' : '700'
+    },
     # {
     #     'path' : '../dataset/RouteFootfall/701.csv',
     #     'routeNo' : '701'
@@ -29,10 +29,10 @@ pathInfo = [
     #     'path' : '../dataset/RouteFootfall/707.csv',
     #     'routeNo' : '707'
     # },
-    {
-        'path' : '../dataset/clean_data/709.csv',
-        'routeNo' : '709'
-    },
+    # {
+    #     'path' : '../dataset/clean_data/709.csv',
+    #     'routeNo' : '709'
+    # },
     # {
     #     'path' : '../dataset/RouteFootfall/710.csv',
     #     'routeNo' : '710'

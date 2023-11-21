@@ -47,7 +47,9 @@ def merge(pathInfo):
 
     df1 = df1.reset_index(drop=True)
 
-    df1 = df1.drop(['direction', 'stop-seq'], axis=1)
+    # df1 = df1.drop(['direction', 'stop-seq'], axis=1)
+    # df1 = df1.drop(['stop-seq'], axis=1)
+    df1 = df1.drop(['stop-number'], axis=1)
     print(df1.head())
 
 
@@ -71,7 +73,7 @@ def merge(pathInfo):
 
     mergedFrame = pd.merge(df2, df1, right_on='stop-name', left_on='from_stop_name')
     mergedFrame = mergedFrame.drop(['stop-name'], axis=1)
-    mergedFrame = mergedFrame.rename(columns={'latitude': 'from_lat', 'longitude': 'from_long'})
+    mergedFrame = mergedFrame.rename(columns={'latitude': 'from_lat', 'longitude': 'from_long', 'stop-seq': 'from_stop_no'})
     print(mergedFrame.columns)
     print(len(mergedFrame))
 
@@ -81,6 +83,15 @@ def merge(pathInfo):
     print(mergedFrame.columns)
     print(mergedFrame.head())
     print(len(mergedFrame))
+
+    mergedFrame = pd.merge(mergedFrame, df1[['stop-name', 'stop-seq']], left_on='to_stop_name', right_on='stop-name')
+    mergedFrame = mergedFrame.drop(['stop-name'], axis=1)
+    mergedFrame = mergedFrame.rename(columns={'stop-seq': 'to_stop_no'})
+    print(mergedFrame.columns)
+    print(mergedFrame.head())
+    print(len(mergedFrame))
+
+    mergedFrame['direction'] = mergedFrame.apply(lambda row: 'up' if int(row['from_stop_no']) < int(row['to_stop_no']) else 'down', axis = 1) 
 
     mergedFrame.to_csv('../dataset/Intermediate/intermediate'+pathInfo['routeNo']+'.csv')
 
