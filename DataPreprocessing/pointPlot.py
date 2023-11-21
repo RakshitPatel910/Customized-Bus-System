@@ -6,7 +6,6 @@ import random
 import math
 
 
-
 def getGeometryPoints(lat,longi,totalPassengers,res):
     # res = ox.features_from_point( (lat, longi), tags = {'building': True}, dist=200 )
     polygons_list = []
@@ -28,10 +27,8 @@ def createDataframe(startPloy,endPoly,fromStopName,fromLat,fromLong,toStopName,t
     columns = ['start_lat','start_long','from_stop_name','from_lat','from_long','to_stop_name','to_lat','to_long','end_lat','end_long']
     for startPloy, endPoly in zip(startPloy, endPoly):
         df.append([startPloy.centroid.x,startPloy.centroid.y,fromStopName,fromLat,fromLong,toStopName,toLat,toLong,endPoly.centroid.x,endPoly.centroid.y])
-        # print("centroid ",i.centroid)
-        # print("centroid loc ",i.centroid.x,i.centroid.y)
     newDf = pd.DataFrame(df, columns=columns)
-    # print("newDf ",type(newDf))
+    
     return newDf
 
 # 'D:\MajorProject\Customized-Bus-System\dataset\plotForm.csv'

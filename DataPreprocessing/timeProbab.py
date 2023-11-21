@@ -59,8 +59,8 @@ def calProbab(df):
     return probabDf
         
 
-        
-
 
 timeProbability(filePath)
+
+__all__ = ["timeProbability"]
 
