@@ -1,6 +1,7 @@
 import pandas as pd 
 import osmnx as ox
 import matplotlib.pyplot as plt
+import timeProbab as tp
 import geopandas as gpd 
 import random
 import math
@@ -35,6 +36,7 @@ def createDataframe(startPloy,endPoly,fromStopName,fromLat,fromLong,toStopName,t
 
 def augmentDataCreation(path):
     df = pd.read_csv(path)
+    
     # print(df)
     finalDF = []
     for i in df.itertuples():
@@ -66,6 +68,7 @@ def augmentDataCreation(path):
     # plt.show()
     print("finalDF",finalDF)
     finalDF.to_csv('../dataset/passengerRequests/request700.csv')
+    tp.calProbab(path)
 
 
 __all__ = ["augmentDataCreation"]
