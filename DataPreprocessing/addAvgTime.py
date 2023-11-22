@@ -25,7 +25,7 @@ def calcAvgTime(graph, row):
 
 def addAvgTime():
     df = pd.read_csv('../dataset/passengerRequests/request700.csv')
-    # df = df.head()
+    df = df.head()
     # df = df[350:351]
     # df = pd.read_csv('../dataset/finalDF700.csv')
     # df = df[0:155]
